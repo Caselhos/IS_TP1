@@ -17,6 +17,7 @@ class CSVtoXMLConverter:
         self._reader = CSVReader(path)
 
     def to_xml(self):
+
         # read countries
         countries = self._reader.read_entities(
             attr="country",
@@ -37,7 +38,7 @@ class CSVtoXMLConverter:
         )
         # read musics
         #TODO resolver isto porque nao esta a chamar a referencia ao pais mas sim a sigla
-        musics =self._reader.read_entities(
+        musics = self._reader.read_entities(
             attr="name",
             builder=lambda row: Music(
                 spotify_id=row["spotify_id"],
@@ -65,17 +66,32 @@ class CSVtoXMLConverter:
         )
         """
         # generate the final xml
-        root_el = ET.Element("Football")
-
+        root_el = ET.Element("Music")
+        """
         teams_el = ET.Element("Teams")
         for team in teams.values():
             teams_el.append(team.to_xml())
+        """
+
+        musics_el = ET.Element("Musics")
+        for music in musics.values():
+            musics_el.append(music.to_xml())
 
         countries_el = ET.Element("Countries")
         for country in countries.values():
             countries_el.append(country.to_xml())
 
-        root_el.append(teams_el)
+        artists_el = ET.Element("Artists")
+        for artist in artists.values():
+            artists_el.append(artist.to_xml())
+
+        albums_el = ET.Element("Albums")
+        for album in albums.values():
+            albums_el.append(album.to_xml())
+
+        root_el.append(musics_el)
+        root_el.append(artists_el)
+        root_el.append(albums_el)
         root_el.append(countries_el)
 
         return root_el
