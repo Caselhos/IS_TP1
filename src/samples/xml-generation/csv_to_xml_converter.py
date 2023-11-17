@@ -1,13 +1,11 @@
-import csv
 import xml.dom.minidom as md
 import xml.etree.ElementTree as ET
 
 from csv_reader import CSVReader
-from entities.country import Country
-from entities.team import Team
-from entities.player import Player
-from entities.artist import Artist
 from entities.album import Album
+from entities.artist import Artist
+from entities.country import Country
+from entities.day import Day
 from entities.music import Music
 
 
@@ -18,11 +16,29 @@ class CSVtoXMLConverter:
 
     def to_xml(self):
 
-        # read countries
+        # read days
+        days = self._reader.read_entities(
+            attr="snapshot_date",
+            builder=lambda row: Day(
+                date=row["snapshot_date"],
+            )
+        )
+
+        def after_creating_country(country,row):
+            for x in days.values():
+                print(x)
+                x.add_country((country.get_id()))
+            # add the player to the appropriate team
+            print(days.values())
+            #days[row["snapshot_date"]].add_country(country.get_id())
+        #read countries
         countries = self._reader.read_entities(
             attr="country",
             builder=lambda row: Country(row["country"])
+            , after_create=after_creating_country
         )
+
+
         # read artists
         artists = self._reader.read_entities(
             attr="artists",
@@ -36,8 +52,12 @@ class CSVtoXMLConverter:
                 release_date=row["album_release_date"]
             )
         )
+
+        def after_creating_music(music, row):
+            days[row["snapshot_date"]].add_music(music.get_id())
+            days[row["snapshot_date"]].add_rank(music.get_rank())
+            return
         # read musics
-        #TODO resolver isto porque nao esta a chamar a referencia ao pais mas sim a sigla
         musics = self._reader.read_entities(
             attr="name",
             builder=lambda row: Music(
@@ -47,8 +67,10 @@ class CSVtoXMLConverter:
                 country=countries[row["country"]],
                 artist=artists[row["artists"]],
                 album=albums[row["album_name"]]
-            )
+            ),
+            after_create=after_creating_music
         )
+
         # read players
         """
         def after_creating_player(player, row):
@@ -89,6 +111,11 @@ class CSVtoXMLConverter:
         for album in albums.values():
             albums_el.append(album.to_xml())
 
+        days_el = ET.Element("Days")
+        for day1 in days.values():
+            days_el.append(day1.to_xml())
+
+        root_el.append(days_el)
         root_el.append(musics_el)
         root_el.append(artists_el)
         root_el.append(albums_el)
@@ -100,4 +127,3 @@ class CSVtoXMLConverter:
         xml_str = ET.tostring(self.to_xml(), encoding='utf8', method='xml').decode()
         dom = md.parseString(xml_str)
         return dom.toprettyxml()
-

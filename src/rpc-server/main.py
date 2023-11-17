@@ -1,6 +1,7 @@
-import signal, sys
-from xmlrpc.server import SimpleXMLRPCServer
+import signal
+import sys
 from xmlrpc.server import SimpleXMLRPCRequestHandler
+from xmlrpc.server import SimpleXMLRPCServer
 
 from functions.string_length import string_length
 from functions.string_reverse import string_reverse

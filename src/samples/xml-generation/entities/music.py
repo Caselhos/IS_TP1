@@ -24,6 +24,11 @@ class Music:
         el.set("album_ref", str(self._album.get_id()))
         return el
 
+    def get_id(self):
+        return self._id
+
+    def get_rank(self):
+        return self._rank
     def __str__(self):
         return (f"{self._name}, spotify_id:{self._spotify_id}, rank:{self._rank}, country:{self._country}, "
                 f"artist:{self._artist}, album:{self._album}")
