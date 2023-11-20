@@ -1,16 +1,16 @@
 import xml.etree.ElementTree as ET
-
+from .artist import Artist
 
 class Music:
 
-    def __init__(self, spotify_id, name, rank, country, artist, album):
+    def __init__(self, spotify_id, name, rank, country, album):
         Music.counter += 1
         self._id = Music.counter
         self._spotify_id = spotify_id
         self._name = name
         self._rank = rank
         self._country = country
-        self._artist = artist
+        self._artists = []
         self._album = album
 
     def to_xml(self):
@@ -20,10 +20,15 @@ class Music:
         el.set("name", self._name)
         el.set("rank", self._rank)
         el.set("country_ref", str(self._country.get_id()))
-        el.set("artist_ref", str(self._artist.get_id()))
+        players_el = ET.Element("Artists")
+        for player in self._artists:
+            players_el.append(player.to_xml())
+        #el.set("artist_ref", str(self._artist.get_id()))
         el.set("album_ref", str(self._album.get_id()))
         return el
 
+    def add_player(self, artist: Artist):
+        self._artists.append(artist)
     def get_id(self):
         return self._id
 

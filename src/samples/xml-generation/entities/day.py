@@ -26,10 +26,10 @@ class Day:
             item_element = ET.Element("countries")
             item_element.set("country_ref", str(index))
             for music, rank in zip(self._music, self._rank):
-                day_el = ET.SubElement(item_element,"Songs")
+                day_el = ET.SubElement(item_element, "Songs")
                 day_el.set("music_ref", str(music))
                 day_el.set("rank", rank)
-                item_element.append(day_el)
+                #item_element.append(day_el)
             el.append(item_element)
         return el
 

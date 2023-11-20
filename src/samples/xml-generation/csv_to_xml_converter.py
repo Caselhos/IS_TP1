@@ -16,9 +16,10 @@ class CSVtoXMLConverter:
 
     def to_xml(self):
 
+
         # read days
         days = self._reader.read_entities(
-            attr="snapshot_date",
+            get_keys=lambda row: row["snapshot_date"],
             builder=lambda row: Day(
                 date=row["snapshot_date"],
             )
@@ -26,14 +27,10 @@ class CSVtoXMLConverter:
 
         def after_creating_country(country,row):
             for x in days.values():
-                print(x)
                 x.add_country((country.get_id()))
-            # add the player to the appropriate team
-            print(days.values())
-            #days[row["snapshot_date"]].add_country(country.get_id())
         #read countries
         countries = self._reader.read_entities(
-            attr="country",
+            get_keys=lambda row: row["country"],
             builder=lambda row: Country(row["country"])
             , after_create=after_creating_country
         )
@@ -41,12 +38,12 @@ class CSVtoXMLConverter:
 
         # read artists
         artists = self._reader.read_entities(
-            attr="artists",
+            get_keys=lambda row: row["artists"].replace(' ', '').split(","),
             builder=lambda row: Artist(row["artists"])
         )
         # read albums
         albums = self._reader.read_entities(
-            attr="album_name",
+            get_keys=lambda row: row["album_name"],
             builder=lambda row: Album(
                 name=row["album_name"],
                 release_date=row["album_release_date"]
@@ -56,16 +53,17 @@ class CSVtoXMLConverter:
         def after_creating_music(music, row):
             days[row["snapshot_date"]].add_music(music.get_id())
             days[row["snapshot_date"]].add_rank(music.get_rank())
+            music[row["artists"]].add_artists(music)
             return
         # read musics
         musics = self._reader.read_entities(
-            attr="name",
+            get_keys=lambda row: row["name"],
             builder=lambda row: Music(
                 spotify_id=row["spotify_id"],
                 name=row["name"],
                 rank=row["daily_rank"],
                 country=countries[row["country"]],
-                artist=artists[row["artists"]],
+                #artist=artists[row["artists"]],
                 album=albums[row["album_name"]]
             ),
             after_create=after_creating_music
