@@ -1,25 +1,34 @@
-import psycopg2
 from lxml import etree
+import xml.etree.ElementTree as ET
+import psycopg2
 
-conn = psycopg2.connect(
-    host='your_host',
-    database='your_database',
-    user='your_username',
-    password='your_password'
-)
+connection = None
+cursor = None
+path = "dsa.xml"
+try:
+    connection = psycopg2.connect(user="is",
+                                  password="is",
+                                  host="localhost",
+                                  port="5432",
+                                  database="is")
 
-with conn.cursor() as cursor:
-    for row in parser.findall('your_xml_element'):
-        # Map the XML elements to the corresponding table columns
-        file_name = row.find('your_file_name_element').text
-        xml_data = etree.tostring(row.find('your_xml_data_element'))
+    parser = etree.parse(path)
 
-        # Insert the data into the table
+    with connection.cursor() as cursor:
+        with open(path, 'r', encoding="utf8")as file:
+            xml_data = file.read()
+        root = ET.fromstring(xml_data)
         cursor.execute(
-            "INSERT INTO public.imported_documents (file_name, xml) VALUES (%s, %s)",
-            (file_name, xml_data)
+                "INSERT INTO public.imported_documents (file_name, xml) VALUES (%s, %s)",
+                (path, xml_data)
         )
 
-    conn.commit()
+        connection.commit()
+except (Exception, psycopg2.Error) as error:
+    print("Failed to fetch data", error)
 
-conn.close()
+finally:
+    if connection:
+        connection.close()
+
+

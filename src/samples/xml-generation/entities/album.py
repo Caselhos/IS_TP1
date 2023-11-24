@@ -12,8 +12,12 @@ class Album:
     def to_xml(self):
         el = ET.Element("Album")
         el.set("id", str(self._id))
-        el.set("name", self._name)
-        el.set("release_date",self._release_date)
+        test = ET.SubElement(el, "ALBUMINFO")
+        test.set("name", self._name)
+        #el.append(test)
+        test2 = ET.SubElement(el, "ALBUMINFO")
+        test2.set("release_date", self._release_date)
+        #el.append(test2)
         return el
 
     def get_id(self):

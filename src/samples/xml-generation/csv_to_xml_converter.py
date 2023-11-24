@@ -8,7 +8,7 @@ from entities.country import Country
 from entities.day import Day
 from entities.music import Music
 
-
+#todo fazer com que cada artista seja uma entry no programa
 class CSVtoXMLConverter:
 
     def __init__(self, path):
@@ -25,22 +25,6 @@ class CSVtoXMLConverter:
             )
         )
 
-        def after_creating_country(country,row):
-            for x in days.values():
-                x.add_country((country.get_id()))
-        #read countries
-        countries = self._reader.read_entities(
-            get_keys=lambda row: row["country"],
-            builder=lambda row: Country(row["country"])
-            , after_create=after_creating_country
-        )
-
-
-        # read artists
-        artists = self._reader.read_entities(
-            get_keys=lambda row: row["artists"].replace(' ', '').split(","),
-            builder=lambda row: Artist(row["artists"])
-        )
         # read albums
         albums = self._reader.read_entities(
             get_keys=lambda row: row["album_name"],
@@ -50,11 +34,16 @@ class CSVtoXMLConverter:
             )
         )
 
-        def after_creating_music(music, row):
-            days[row["snapshot_date"]].add_music(music.get_id())
-            days[row["snapshot_date"]].add_rank(music.get_rank())
-            music[row["artists"]].add_artists(music)
-            return
+        def after_creating_country(rcountry, row):
+            for x in days.values():
+                x.add_country((rcountry.get_id()))
+        #read countries
+        countries = self._reader.read_entities(
+            get_keys=lambda row: row["country"],
+            builder=lambda row: Country(row["country"])
+            , after_create=after_creating_country
+        )
+
         # read musics
         musics = self._reader.read_entities(
             get_keys=lambda row: row["name"],
@@ -63,11 +52,29 @@ class CSVtoXMLConverter:
                 name=row["name"],
                 rank=row["daily_rank"],
                 country=countries[row["country"]],
-                #artist=artists[row["artists"]],
                 album=albums[row["album_name"]]
-            ),
-            after_create=after_creating_music
+            )
         )
+
+        def after_creating_artist(artist,row):
+            musics[row["name"]].add_player(artist)
+        # read artists
+        artists = self._reader.read_entities(
+            get_keys=lambda row: row["artists"].replace(' ', '').split(","),
+            builder=lambda row: Artist(row["artists"])
+            , after_create=after_creating_artist
+
+        )
+        """
+        for x in days.values():
+            x.add_data(musics)
+        """
+        def after_creating_music(music, row):
+            days[row["snapshot_date"]].add_music(music.get_id())
+            days[row["snapshot_date"]].add_rank(music.get_rank())
+            music[row["artists"]].add_artists(music)
+            return
+
 
         # read players
         """
@@ -86,12 +93,7 @@ class CSVtoXMLConverter:
         )
         """
         # generate the final xml
-        root_el = ET.Element("Music")
-        """
-        teams_el = ET.Element("Teams")
-        for team in teams.values():
-            teams_el.append(team.to_xml())
-        """
+        root_el = ET.Element("aura")
 
         musics_el = ET.Element("Musics")
         for music in musics.values():
@@ -113,7 +115,7 @@ class CSVtoXMLConverter:
         for day1 in days.values():
             days_el.append(day1.to_xml())
 
-        root_el.append(days_el)
+        #root_el.append(days_el)
         root_el.append(musics_el)
         root_el.append(artists_el)
         root_el.append(albums_el)
