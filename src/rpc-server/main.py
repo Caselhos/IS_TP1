@@ -5,13 +5,16 @@ from xmlrpc.server import SimpleXMLRPCServer
 
 from functions.string_length import string_length
 from functions.string_reverse import string_reverse
+from functions.sendxmltodb import xmltodb
+from functions.validate_xml_with_schema import validate_xml_with_schema
+from functions.softdelete import softdelete
 
 
 class RequestHandler(SimpleXMLRPCRequestHandler):
     rpc_paths = ('/RPC2',)
 
 
-with SimpleXMLRPCServer(('0.0.0.0', 9000), requestHandler=RequestHandler) as server:
+with SimpleXMLRPCServer(('0.0.0.0', 9000), allow_none=True, requestHandler=RequestHandler) as server:
     server.register_introspection_functions()
 
 
@@ -33,6 +36,9 @@ with SimpleXMLRPCServer(('0.0.0.0', 9000), requestHandler=RequestHandler) as ser
     # register both functions
     server.register_function(string_reverse)
     server.register_function(string_length)
+    server.register_function(xmltodb)
+    server.register_function(validate_xml_with_schema)
+    server.register_function(softdelete)
 
     # start the server
     print("Starting the RPC Server...")

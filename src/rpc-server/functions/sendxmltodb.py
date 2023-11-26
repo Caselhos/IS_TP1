@@ -1,34 +1,44 @@
-from lxml import etree
 import xml.etree.ElementTree as ET
 import psycopg2
 
-connection = None
-cursor = None
-path = "dsa.xml"
-try:
-    connection = psycopg2.connect(user="is",
-                                  password="is",
-                                  host="localhost",
-                                  port="5432",
-                                  database="is")
 
-    parser = etree.parse(path)
+def xmltodb(xml_data,name):
+    global cursor
+    connection = None
+    cursor = None
+    try:
+        connection = psycopg2.connect(user="is",
+                                      password="is",
+                                      host="is-db",
+                                      port="5432",
+                                      database="is")
 
-    with connection.cursor() as cursor:
-        with open(path, 'r', encoding="utf8")as file:
-            xml_data = file.read()
-        root = ET.fromstring(xml_data)
-        cursor.execute(
+        #teste = etree.parse(xml_data.data)
+
+        with connection.cursor() as cursor:
+            """""
+            with open(path, 'r', encoding="utf8") as file:
+                xml_data = file.read()
+            """""
+
+            root = ET.fromstring(xml_data.data)
+            #print(xml_data)
+            #print(teste)
+            #print(root)
+            cursor.execute(
                 "INSERT INTO public.imported_documents (file_name, xml) VALUES (%s, %s)",
-                (path, xml_data)
-        )
+                (name, xml_data.data.decode())
+            )
 
-        connection.commit()
-except (Exception, psycopg2.Error) as error:
-    print("Failed to fetch data", error)
+            connection.commit()
+    except (Exception, psycopg2.Error) as error:
+        print("Failed to fetch data", error)
+        return "Failed"
 
-finally:
-    if connection:
-        connection.close()
+    finally:
+        if connection:
+            connection.close()
+
+    return "Sucess"
 
 

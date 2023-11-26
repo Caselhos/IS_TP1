@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+    <xs:element name="aura">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="Musics"/>
+                <xs:element ref="Artists"/>
+                <xs:element ref="Albums"/>
+                <xs:element ref="Countries"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="Musics">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded" ref="Music"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="Music">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="MUSICINFO"/>
+                <xs:element ref="Artists"/>
+            </xs:sequence>
+            <xs:attribute name="album_ref" use="required" type="xs:integer"/>
+            <xs:attribute name="id" use="required" type="xs:integer"/>
+            <xs:attribute name="spotify_id" use="required" type="xs:NMTOKEN"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="MUSICINFO">
+        <xs:complexType>
+            <xs:attribute name="name" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="Albums">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded" ref="Album"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="Album">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded" ref="ALBUMINFO"/>
+            </xs:sequence>
+            <xs:attribute name="id" use="required" type="xs:integer"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="ALBUMINFO">
+        <xs:complexType>
+            <xs:attribute name="name"/>
+            <xs:attribute name="release_date"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="Countries">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded" ref="Country"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="Country">
+        <xs:complexType>
+            <xs:attribute name="id" use="required" type="xs:integer"/>
+            <xs:attribute name="name" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="Artists">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="unbounded" ref="Artist"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="Artist">
+        <xs:complexType>
+            <xs:attribute name="id" use="required" type="xs:integer"/>
+            <xs:attribute name="name" use="required"/>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>
