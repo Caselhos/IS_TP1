@@ -17,6 +17,8 @@ services:
       - db
 
   rpc-client:
+    stdin_open: true
+    tty: true
     container_name: is-rpc-client
     build: docker/images/python
     volumes:

@@ -1,20 +1,47 @@
 import xmlrpc.client
 
-print("connecting to server...")
-server = xmlrpc.client.ServerProxy('http://is-rpc-server:9000')
-path = "dsa.xml"  # input do cliente
-path_schema = "dsa.xsd"  # input do cliente
+def connect_to_server():
+    print("Connecting to server...")
+    return xmlrpc.client.ServerProxy('http://is-rpc-server:9000')
 
-with open(path, 'rb') as file:
-    xml_data = xmlrpc.client.Binary(file.read())
-with open(path_schema, 'rb') as file:
-    xml_schema = xmlrpc.client.Binary(file.read())
+def read_file(file_path):
+    with open(file_path, 'rb') as file:
+        return xmlrpc.client.Binary(file.read())
+
+def main_menu():
+    print("1. XML to Database")
+    print("2. Validate XML with Schema")
+    print("3. Soft Delete File")
+    print("4. Exit")
 
 
-name = "fd2sfds"  # input do cliente
-print(f" > {server.xmltodb(xml_data, name)}")
+server = connect_to_server()
 
-print(f" > {server.validate_xml_with_schema(xml_data,xml_schema)}")
+while True:
+    main_menu()
+    choice = input("Enter your choice (1-4): ")
 
-filetobedeleted="fdsfds"  # input do cliente
-print(f" > {server.softdelete(filetobedeleted)}")
+    if choice == '1':
+        path = input("Enter XML file path: ")
+        name = input("Enter a name: ")
+        xml_data = read_file(path)
+        print(f" > {server.xmltodb(xml_data, name)}")
+
+    elif choice == '2':
+        xml_path = input("Enter XML file path: ")
+        schema_path = input("Enter XML schema file path: ")
+        xml_data = read_file(xml_path)
+        xml_schema = read_file(schema_path)
+        print(f" > {server.validate_xml_with_schema(xml_data, xml_schema)}")
+        print("****** '> None' Significa sem problemas *******")
+
+    elif choice == '3':
+        file_to_delete = input("Enter the file to soft delete: ")
+        print(f" > {server.softdelete(file_to_delete)}")
+
+    elif choice == '4':
+        print("Exiting program. Goodbye!")
+        break
+
+    else:
+        print("Invalid choice. Please enter a number between 1 and 4.")
