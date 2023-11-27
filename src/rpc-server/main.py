@@ -8,7 +8,8 @@ from functions.sendxmltodb import xmltodb
 from functions.validate_xml_with_schema import validate_xml_with_schema
 from functions.softdelete import softdelete
 from functions.query1 import listarTitulo
-from functions.query2 import listarAlbunsPorAno
+from functions.query2 import listarAlbumTitulo
+#from functions.query3 import listarAlbumData
 
 
 
@@ -38,7 +39,8 @@ with SimpleXMLRPCServer(('0.0.0.0', 9000), allow_none=True, requestHandler=Reque
     server.register_function(validate_xml_with_schema)
     server.register_function(softdelete)
     server.register_function(listarTitulo)
-    server.register_function(listarAlbunsPorAno)
+    server.register_function(listarAlbumTitulo)
+    #server.register_function(listarAlbumData)
 
     # start the server
     print("Starting the RPC Server...")

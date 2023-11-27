@@ -15,7 +15,8 @@ def main_menu():
     print("1. XML to Database")
     print("2. Validate XML with Schema")
     print("3. Soft Delete File")
-    print("4. Exit")
+    print("4. Query 1")
+    print("5. Exit")
 
 
 server = connect_to_server()
@@ -41,10 +42,15 @@ while True:
     elif choice == '3':
         file_to_delete = input("Enter the file to soft delete: ")
         print(f" > {server.softdelete(file_to_delete)}")
-
+    
     elif choice == '4':
+        titulo = input("Enter the album title: ")
+        print(f" > {server.listarAlbumTitulo(titulo)}")
+
+    elif choice == '5':
         print("Exiting program. Goodbye!")
         break
 
+
     else:
-        print("Invalid choice. Please enter a number between 1 and 4.")
+        print("Invalid choice. Please enter a number between 1 and 5.")
