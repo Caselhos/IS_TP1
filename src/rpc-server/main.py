@@ -8,6 +8,9 @@ from functions.string_reverse import string_reverse
 from functions.sendxmltodb import xmltodb
 from functions.validate_xml_with_schema import validate_xml_with_schema
 from functions.softdelete import softdelete
+from functions.query1 import listarTitulo
+from functions.query2 import listarAlbunsPorAno
+
 
 
 class RequestHandler(SimpleXMLRPCRequestHandler):
@@ -39,6 +42,8 @@ with SimpleXMLRPCServer(('0.0.0.0', 9000), allow_none=True, requestHandler=Reque
     server.register_function(xmltodb)
     server.register_function(validate_xml_with_schema)
     server.register_function(softdelete)
+    server.register_function(listarTitulo)
+    server.register_function(listarAlbunsPorAno)
 
     # start the server
     print("Starting the RPC Server...")
