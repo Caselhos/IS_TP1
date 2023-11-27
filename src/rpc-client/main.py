@@ -1,12 +1,15 @@
 import xmlrpc.client
 
+
 def connect_to_server():
     print("Connecting to server...")
     return xmlrpc.client.ServerProxy('http://is-rpc-server:9000')
 
+
 def read_file(file_path):
     with open(file_path, 'rb') as file:
         return xmlrpc.client.Binary(file.read())
+
 
 def main_menu():
     print("1. XML to Database")

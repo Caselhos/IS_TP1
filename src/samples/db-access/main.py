@@ -1,3 +1,4 @@
+"""
 import psycopg2
 
 connection = None
@@ -24,3 +25,4 @@ finally:
     if connection:
         cursor.close()
         connection.close()
+"""

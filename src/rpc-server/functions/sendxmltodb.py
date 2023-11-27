@@ -2,7 +2,7 @@ import xml.etree.ElementTree as ET
 import psycopg2
 
 
-def xmltodb(xml_data,name):
+def xmltodb(xml_data, name):
     global cursor
     connection = None
     cursor = None
@@ -13,8 +13,6 @@ def xmltodb(xml_data,name):
                                       port="5432",
                                       database="is")
 
-        #teste = etree.parse(xml_data.data)
-
         with connection.cursor() as cursor:
             """""
             with open(path, 'r', encoding="utf8") as file:
@@ -22,9 +20,6 @@ def xmltodb(xml_data,name):
             """""
 
             root = ET.fromstring(xml_data.data)
-            #print(xml_data)
-            #print(teste)
-            #print(root)
             cursor.execute(
                 "INSERT INTO public.imported_documents (file_name, xml) VALUES (%s, %s)",
                 (name, xml_data.data.decode())
@@ -39,6 +34,4 @@ def xmltodb(xml_data,name):
         if connection:
             connection.close()
 
-    return "Sucess"
-
-
+    return "Success"

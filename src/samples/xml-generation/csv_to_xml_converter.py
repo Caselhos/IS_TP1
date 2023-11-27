@@ -75,23 +75,6 @@ class CSVtoXMLConverter:
             music[row["artists"]].add_artists(music)
             return
 
-
-        # read players
-        """
-        def after_creating_player(player, row):
-            # add the player to the appropriate team
-            teams[row["Current Club"]].add_player(player)
-
-        self._reader.read_entities(
-            attr="full_name",
-            builder=lambda row: Player(
-                name=row["full_name"],
-                age=row["age"],
-                country=countries[row["nationality"]]
-            ),
-            after_create=after_creating_player
-        )
-        """
         # generate the final xml
         root_el = ET.Element("aura")
 
@@ -115,7 +98,7 @@ class CSVtoXMLConverter:
         for day1 in days.values():
             days_el.append(day1.to_xml())
 
-        #root_el.append(days_el)
+        #root_el.append(days_el) NAO APAGAR
         root_el.append(musics_el)
         root_el.append(artists_el)
         root_el.append(albums_el)
