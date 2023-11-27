@@ -33,4 +33,4 @@ def softdelete(name_file_to_delete):
         if connection:
             connection.close()
 
-    return "Sucess"
+    return "Success"
