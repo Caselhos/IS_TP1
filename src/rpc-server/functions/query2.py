@@ -1,9 +1,9 @@
 import psycopg2
 from lxml import etree
 
-#query 'inlcuir pesquisa em texto'
+# Query using XPath to retrieve album information by title
 
-def listarAlbumTitulo():
+def listarAlbumTitulo(titulo):
     global cursor
     connection = None
     cursor = None
@@ -16,8 +16,8 @@ def listarAlbumTitulo():
 
         cursor = connection.cursor()
 
-        cursor.execute("""
-            SELECT xpath('//aura/Albums/Album[ALBUMINFO/@name = "greedy"]', "imported_documents"."xml")
+        cursor.execute(f"""
+            SELECT xpath('//aura/Albums/Album[ALBUMINFO/@name="{titulo}"]', "imported_documents"."xml")
             FROM "imported_documents"
             WHERE "file_name" = 'spotify';
         """)
@@ -36,4 +36,5 @@ def listarAlbumTitulo():
             cursor.close()
             connection.close()
 
-listarAlbumTitulo()
+# Example: Get album information by title "Tsiou"
+listarAlbumTitulo("Tsiou")
