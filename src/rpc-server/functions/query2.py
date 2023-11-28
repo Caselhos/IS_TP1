@@ -17,7 +17,7 @@ def listarAlbumTitulo(titulo):
         cursor = connection.cursor()
 
         cursor.execute(f"""
-            SELECT xpath('//aura/Albums/Album[ALBUMINFO/@release_date="{titulo}"]', "imported_documents"."xml")
+            SELECT xpath('//aura/Albums/Album[ALBUMINFO/@name="{titulo}"]', "imported_documents"."xml")
             FROM "imported_documents"
             WHERE "file_name" = 'spotify';
         """)
