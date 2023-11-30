@@ -8,7 +8,7 @@ from entities.country import Country
 from entities.day import Day
 from entities.music import Music
 
-#todo fazer com que cada artista seja uma entry no programa
+
 class CSVtoXMLConverter:
 
     def __init__(self, path):
@@ -65,6 +65,8 @@ class CSVtoXMLConverter:
             , after_create=after_creating_artist
 
         )
+        for x in artists.keys():
+            artists[x].set_name(x)
         """
         for x in days.values():
             x.add_data(musics)
