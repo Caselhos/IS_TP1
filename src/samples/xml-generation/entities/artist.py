@@ -17,6 +17,9 @@ class Artist:
     def get_id(self):
         return self._id
 
+    def set_name(self, name):
+        self._name = name
+
     def __str__(self):
         return f"name: {self._name}, id:{self._id}"
 
