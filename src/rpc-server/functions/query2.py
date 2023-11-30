@@ -25,8 +25,8 @@ def listarAlbumTitulo(titulo):
         result = cursor.fetchall()
 
         for row in result:
-            album_name = row[0]
-            print(f'Album Name: {album_name}')
+            albumInfo = row[0]
+            print("Album Info: ", albumInfo)
 
     except (Exception, psycopg2.Error) as error:
         print("Failed to fetch data", error)
