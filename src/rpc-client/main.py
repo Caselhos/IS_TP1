@@ -15,8 +15,12 @@ def main_menu():
     print("1. XML to Database")
     print("2. Validate XML with Schema")
     print("3. Soft Delete File")
-    print("4. Query 1")
-    print("5. Exit")
+    print("4. Query 1 PLACEHOLDER")
+    print("5. Query 2 PLACEHOLDER")
+    print("6. Query 3 PLACEHOLDER")
+    print("7. Query 4 PLACEHOLDER")
+    print("8. Query 5 PLACEHOLDER")
+    print("9. Exit")
 
 
 server = connect_to_server()
@@ -48,6 +52,22 @@ while True:
         print(f" > {server.listarAlbumTitulo(titulo)}")
 
     elif choice == '5':
+        titulo = input("Enter the album title: ")
+        print(f" > {server.listarAlbumTitulo(titulo)}")
+
+    elif choice == '6':
+        titulo = input("Enter the album title: ")
+        print(f" > {server.listarAlbumTitulo(titulo)}")
+
+    elif choice == '7':
+        titulo = input("Enter the album title: ")
+        print(f" > {server.listarAlbumTitulo(titulo)}")
+
+    elif choice == '8':
+        titulo = input("Enter the album title: ")
+        print(f" > {server.listarAlbumTitulo(titulo)}")
+
+    elif choice == '9':
         print("Exiting program. Goodbye!")
         break
 
