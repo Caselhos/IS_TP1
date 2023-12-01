@@ -48,24 +48,25 @@ while True:
         print(f" > {server.softdelete(file_to_delete)}")
     
     elif choice == '4':
-        titulo = input("Enter the album title: ")
-        print(f" > {server.listarAlbumTitulo(titulo)}")
+        print(f" > {server.listarTitulo()}")
 
     elif choice == '5':
         titulo = input("Enter the album title: ")
-        print(f" > {server.listarAlbumTitulo(titulo)}")
+        filename = input("Enter the name of the file: ")
+        print(f" > {server.listarAlbumTitulo(titulo,filename)}")
 
     elif choice == '6':
-        titulo = input("Enter the album title: ")
-        print(f" > {server.listarAlbumTitulo(titulo)}")
+        data = input("Enter the date: ")
+        filename = input("Enter the name of the file: ")
+        print(f" > {server.listarAlbumData(filename)}")
 
     elif choice == '7':
-        titulo = input("Enter the album title: ")
-        print(f" > {server.listarAlbumTitulo(titulo)}")
+        artista = input("Enter the album title: ")
+        filename = input("Enter the name of the file: ")
+        print(f" > {server.listarMusicaArtista(artista,filename)}")
 
     elif choice == '8':
-        titulo = input("Enter the album title: ")
-        print(f" > {server.listarAlbumTitulo(titulo)}")
+        print(f" > {server.listarPLACEHOLDER()}")
 
     elif choice == '9':
         print("Exiting program. Goodbye!")

@@ -2,14 +2,14 @@ import psycopg2
 
 # Query using XPath to retrieve music information by artist name
 
-def listarMusicaArtista(artist):
+def listarMusicaArtista(artist,filename):
     global cursor
     connection = None
     cursor = None
     try:
         connection = psycopg2.connect(user="is",
                                     password="is",
-                                    post="localhost",
+                                    post="is-db",
                                     port="5432",
                                     database="is")
 
@@ -19,7 +19,7 @@ def listarMusicaArtista(artist):
         sql_query = f"""
             SELECT xpath('//aura/Musics/Music[Artists/Artist/@name="{artist}"]', "imported_documents"."xml")
             FROM "imported_documents"
-            WHERE "file_name" = 'spotify';
+            WHERE "file_name" = {filename};
             """
 
         cursor.execute(sql_query)
@@ -30,7 +30,7 @@ def listarMusicaArtista(artist):
             result = row[0]
             
             print("Musicas do artista: ", result)
-
+        return rows
     finally:
         if connection:
             cursor.close()

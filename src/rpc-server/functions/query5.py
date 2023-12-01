@@ -8,7 +8,7 @@ def listarPLACEHOLDER():
     try:
         connection = psycopg2.connect(user="is",
                                     password="is",
-                                    host="localhost",
+                                    host="is-db",
                                     port="5432",
                                     database="is")
 
@@ -20,7 +20,7 @@ def listarPLACEHOLDER():
 
         for coluna in result:
             print(coluna[0])
-
+        return result
     except (Exception, psycopg2.Error) as error:
         print("Failed to fetch data", error)
 
