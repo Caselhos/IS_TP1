@@ -58,7 +58,7 @@ while True:
     elif choice == '6':
         data = input("Enter the date: ")
         filename = input("Enter the name of the file: ")
-        print(f" > {server.listarAlbumData(filename)}")
+        print(f" > {server.listarAlbumData(data,filename)}")
 
     elif choice == '7':
         artista = input("Enter the album title: ")

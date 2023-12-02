@@ -15,7 +15,7 @@ class Album:
         test = ET.SubElement(el, "ALBUMINFO")
         test.set("name", self._name)
         #el.append(test)
-        test2 = ET.SubElement(el, "ALBUMINFO")
+        test2 = ET.SubElement(el, "ALBUMINFO2")
         test2.set("release_date", self._release_date)
         #el.append(test2)
         return el

@@ -15,12 +15,11 @@ def listarAlbumTitulo(titulo,filename):
                                     database="is")
 
         cursor = connection.cursor()
-
-        cursor.execute(f"""
-            SELECT xpath('//aura/Albums/Album[ALBUMINFO/@name="{titulo}"]', "imported_documents"."xml")
+        cursor.execute("""
+            SELECT xpath('//aura/Albums/Album/ALBUMINFO[@name= "%s"]',"imported_documents"."xml")
             FROM "imported_documents"
-            WHERE "file_name" = {filename};
-        """)
+            WHERE file_name = '%s';
+        """, (titulo, filename))
 
         result = cursor.fetchall()
 
@@ -30,6 +29,7 @@ def listarAlbumTitulo(titulo,filename):
         return result
     except (Exception, psycopg2.Error) as error:
         print("Failed to fetch data", error)
+        return error
 
     finally:
         if connection:
