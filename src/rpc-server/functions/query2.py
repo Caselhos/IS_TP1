@@ -1,8 +1,9 @@
 import psycopg2
 from lxml import etree
+from psycopg2.sql import SQL
+
 
 # Query using XPath to retrieve album information by title
-
 def listarAlbumTitulo(titulo,filename):
     global cursor
     connection = None
@@ -15,17 +16,19 @@ def listarAlbumTitulo(titulo,filename):
                                     database="is")
 
         cursor = connection.cursor()
-        cursor.execute("""
-            SELECT xpath('//aura/Albums/Album/ALBUMINFO[@name= "%s"]',"imported_documents"."xml")
-            FROM "imported_documents"
-            WHERE file_name = '%s';
-        """, (titulo, filename))
+        #xpath_expression = '//aura//Albums//Album//ALBUMINFO[@name="{}"]'.format(titulo)
+        query = """
+                SELECT xpath('//aura/Albums/Album/ALBUMINFO[@name="%s"]', xml)
+                FROM imported_documents
+                WHERE file_name = %s
+            """
+        filename = "'"+filename+"'"
+        print(filename)
+        query_param = query % (titulo, filename)
+
+        cursor.execute(query_param)
 
         result = cursor.fetchall()
-
-        for row in result:
-            albumInfo = row[0]
-            print("Album Info: ", albumInfo)
         return result
     except (Exception, psycopg2.Error) as error:
         print("Failed to fetch data", error)
