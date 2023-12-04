@@ -1,11 +1,8 @@
 import psycopg2
-from lxml import etree
-from psycopg2.sql import SQL
 
 
 # Query using XPath to retrieve album information by title
 def listarAlbumTitulo(titulo,filename):
-    global cursor
     connection = None
     cursor = None
     try:
@@ -16,7 +13,6 @@ def listarAlbumTitulo(titulo,filename):
                                     database="is")
 
         cursor = connection.cursor()
-        #xpath_expression = '//aura//Albums//Album//ALBUMINFO[@name="{}"]'.format(titulo)
         query = """
                 SELECT xpath('//aura/Albums/Album/ALBUMINFO[@name="%s"]', xml)
                 FROM imported_documents

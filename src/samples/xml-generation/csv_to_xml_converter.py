@@ -58,6 +58,8 @@ class CSVtoXMLConverter:
 
         def after_creating_artist(artist,row):
             musics[row["name"]].add_player(artist)
+
+
         # read artists
         artists = self._reader.read_entities(
             get_keys=lambda row: row["artists"].replace(' ', '').split(","),

@@ -16,9 +16,9 @@ def main_menu():
     print("2. Validate XML with Schema")
     print("3. Soft Delete File")
     print("4. Query 1 PLACEHOLDER")
-    print("5. Query 2 PLACEHOLDER")
-    print("6. Query 3 PLACEHOLDER")
-    print("7. Query 4 PLACEHOLDER")
+    print("5. Query 2 Listar Album por Titulo")
+    print("6. Query 3 Listar ALbum por Data")
+    print("7. Query 4 Listar Musicas por Artista")
     print("8. Query 5 PLACEHOLDER")
     print("9. Exit")
 
@@ -61,7 +61,7 @@ while True:
         print(f" > {server.listarAlbumData(data,filename)}")
 
     elif choice == '7':
-        artista = input("Enter the album title: ")
+        artista = input("Enter the artist title: ")
         filename = input("Enter the name of the file: ")
         print(f" > {server.listarMusicaArtista(artista,filename)}")
 
